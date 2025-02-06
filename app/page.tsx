@@ -1,101 +1,118 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
+import { Terminal, Unlock, AlertCircle } from "lucide-react"
+import MatrixBackground from "../components/MatrixBackground"
+import { useAccessAttempts } from "../hooks/useAccessAttempts"
+
+const MAX_ATTEMPTS = 3 // Add a constant for maximum attempts
+
+export default function UnlockPage() {
+  const [code, setCode] = useState("")
+  const [result, setResult] = useState("")
+  const [isUnlocked, setIsUnlocked] = useState(false)
+  const router = useRouter()
+  const { attempts, isLocked, incrementAttempt, resetAttempts } = useAccessAttempts(MAX_ATTEMPTS)
+
+  const correctCode = "unlock"
+
+  useEffect(() => {
+    if (isUnlocked) {
+      const timer = setTimeout(() => {
+        router.push("/dashboard")
+      }, 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [isUnlocked, router])
+
+  const checkCode = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (isLocked) return
+
+    if (code.toLowerCase() === correctCode) {
+      setResult("ACCESS GRANTED")
+      setIsUnlocked(true)
+      resetAttempts()
+    } else {
+      setResult("ACCESS DENIED")
+      incrementAttempt()
+      setTimeout(() => setResult(""), 2000)
+    }
+    setCode("")
+  }
+
+  // const remainingTime = lockoutEndTime ? Math.max(0, Math.ceil((lockoutEndTime - Date.now()) / 1000)) : 0
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    <div className="min-h-screen bg-black text-green-500 font-mono flex items-center justify-center relative overflow-hidden">
+      <MatrixBackground />
+      <div className="absolute inset-0 bg-black/50"></div>
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="z-10 bg-black/70 p-8 rounded-lg border-2 border-green-500 shadow-lg shadow-green-500/50 w-full max-w-md"
+      >
+        <Terminal className="w-16 h-16 mx-auto mb-6 text-green-500" />
+        <h1 className="text-4xl font-bold mb-8 text-center glitch" data-text="SYSTEM ACCESS">
+          SYSTEM ACCESS
+        </h1>
+        <form onSubmit={checkCode} className="space-y-6">
+          <div className="relative">
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="w-full bg-black border-2 border-green-500 rounded px-4 py-3 text-2xl focus:outline-none focus:border-green-300 focus:ring-2 focus:ring-green-300 text-center"
+              placeholder="ENTER CODE"
+              autoFocus
+              disabled={isLocked}
+              aria-label="Access code"
+              aria-describedby="codeHint"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <p id="codeHint" className="sr-only">
+              Enter the access code to unlock the system
+            </p>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-green-500 text-black py-3 rounded text-xl font-bold hover:bg-green-400 transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLocked}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <Unlock className="mr-2" />
+            UNLOCK
+          </button>
+        </form>
+        <AnimatePresence>
+          {result && (
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              className={`mt-6 text-3xl font-bold text-center ${isUnlocked ? "text-green-400" : "text-red-500"} glitch`}
+              data-text={result}
+              role="alert"
+            >
+              {result}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {isLocked && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-6 text-red-500 text-center"
+            role="alert"
+          >
+            <AlertCircle className="w-6 h-6 mx-auto mb-2" />
+            <p>Too many failed attempts.<br/> Get back to your seat and think again.</p>
+          </motion.div>
+        )}
+        <p className="mt-4 text-sm text-center text-green-300">Attempts remaining: {MAX_ATTEMPTS - attempts}</p>
+      </motion.div>
     </div>
-  );
+  )
 }
+
