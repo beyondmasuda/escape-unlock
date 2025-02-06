@@ -14,7 +14,7 @@ export default function UnlockPage() {
   const [result, setResult] = useState("")
   const [isUnlocked, setIsUnlocked] = useState(false)
   const router = useRouter()
-  const { attempts, isLocked, incrementAttempt, resetAttempts, remainingAttempts } = useAccessAttempts(MAX_ATTEMPTS)
+  const { isLocked, incrementAttempt, resetAttempts, remainingAttempts } = useAccessAttempts(MAX_ATTEMPTS)
 
   const correctCode = "unlock"
 
