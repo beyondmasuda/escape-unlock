@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Terminal, Unlock, AlertCircle } from "lucide-react"
 import MatrixBackground from "../components/MatrixBackground"
-import { useAccessAttempts } from "../hooks/useAccessAttempts"
+import { useAccessAttempts } from "@/hooks/useAccessAttempts"
 
 const MAX_ATTEMPTS = 3
 
