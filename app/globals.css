@@ -12,51 +12,26 @@
   }
 }
 
-@keyframes glitch {
-  0% {
-    clip-path: inset(40% 0 61% 0);
+@keyframes subtleFlicker {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 3px #00ff00;
   }
-  20% {
-    clip-path: inset(92% 0 1% 0);
+  20%, 80% {
+    opacity: 0.9;
+    text-shadow: 0 0 2px #00ff00;
   }
-  40% {
-    clip-path: inset(43% 0 1% 0);
-  }
-  60% {
-    clip-path: inset(25% 0 58% 0);
-  }
-  80% {
-    clip-path: inset(54% 0 7% 0);
-  }
-  100% {
-    clip-path: inset(58% 0 43% 0);
+  40%, 60% {
+    opacity: 0.8;
+    text-shadow: 0 0 1px #00ff00;
   }
 }
 
-.glitch {
-  position: relative;
-}
-
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.glitch::before {
-  left: 2px;
-  text-shadow: -2px 0 #ff00c1;
-  animation: glitch 0.3s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-  left: -2px;
-  text-shadow: -2px 0 #00fff9;
-  animation: glitch 0.3s infinite linear alternate;
+.matrix-effect {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 2rem;
+  color: #00ff00;
+  animation: subtleFlicker 2s infinite;
 }
 
 @keyframes blink {

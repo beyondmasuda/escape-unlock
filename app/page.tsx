@@ -59,7 +59,7 @@ export default function UnlockPage() {
         className="z-10 bg-black/70 p-8 rounded-lg border-2 border-green-500 shadow-lg shadow-green-500/50 w-full max-w-md"
       >
         <Terminal className="w-16 h-16 mx-auto mb-6 text-green-500" />
-        <h1 className="text-4xl font-bold mb-8 text-center glitch" data-text="SYSTEM ACCESS">
+        <h1 className="text-4xl font-bold mb-8 text-center matrix-effect" data-text="SYSTEM ACCESS">
           SYSTEM ACCESS
         </h1>
         <form onSubmit={checkCode} className="space-y-6">
@@ -94,7 +94,7 @@ export default function UnlockPage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
-              className={`mt-6 text-3xl font-bold text-center ${isUnlocked ? "text-green-400" : "text-red-500"} glitch`}
+              className={`mt-6 text-3xl font-bold text-center ${isUnlocked ? "text-green-400" : "text-red-500"} matrix-effect`}
               data-text={result}
               role="alert"
             >
@@ -116,7 +116,7 @@ export default function UnlockPage() {
             role="alert"
           >
             <div className="text-center">
-              <h2 className="text-6xl font-bold text-red-500 mb-8 glitch shake" data-text="ACCESS DENIED">
+              <h2 className="text-6xl font-bold text-red-500 mb-8 matrix-effect shake" data-text="ACCESS DENIED">
                 ACCESS DENIED
               </h2>
               <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-500" />
