@@ -15,22 +15,21 @@
 @keyframes subtleFlicker {
   0%, 100% {
     opacity: 1;
-    text-shadow: 0 0 3px #00ff00;
+    text-shadow: 0 0 3px;
   }
   20%, 80% {
     opacity: 0.9;
-    text-shadow: 0 0 2px #00ff00;
+    text-shadow: 0 0 2px;
   }
   40%, 60% {
     opacity: 0.8;
-    text-shadow: 0 0 1px #00ff00;
+    text-shadow: 0 0 1px;
   }
 }
 
 .matrix-effect {
   font-family: "Courier New", Courier, monospace;
   font-size: 2rem;
-  color: #00ff00;
   animation: subtleFlicker 2s infinite;
 }
 
