@@ -29,7 +29,6 @@
 
 .matrix-effect {
   font-family: "Courier New", Courier, monospace;
-  font-size: 2rem;
   animation: subtleFlicker 2s infinite;
 }
 
