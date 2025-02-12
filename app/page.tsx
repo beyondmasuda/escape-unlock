@@ -120,7 +120,7 @@ export default function UnlockPage() {
             role="alert"
           >
             <div className="text-center">
-              <h2 className="text-6xl font-bold text-red-500 mb-8 matrix-effect shake" data-text="ACCESS DENIED">
+              <h2 className="text-7xl font-bold text-red-500 mb-8 matrix-effect shake" data-text="ACCESS DENIED">
                 ACCESS DENIED
               </h2>
               <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-500" />
