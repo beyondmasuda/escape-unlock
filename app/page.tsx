@@ -29,9 +29,13 @@ export default function UnlockPage() {
   }, [isUnlocked, router])
 
   useEffect(() => {
-    if (isUnlocked) {
+    if (result) {
+      const timer = setTimeout(() => {
+        setResult("")
+      }, 2000)
+      return () => clearTimeout(timer)
     }
-  }, [isUnlocked, router])
+  }, [result])
 
   const checkCode = (e: React.FormEvent) => {
     e.preventDefault()
