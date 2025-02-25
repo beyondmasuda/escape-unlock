@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Maximize2, X, Minus, Binary } from "lucide-react"
+import Image from "next/image"
 
 interface PopupImage {
   id: number
@@ -155,8 +156,22 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
             </div>
 
             {/* Window Content */}
-            <div className="relative">
-              <img src={image.imageUrl || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
+            <div className="relative" style={{ height: `${image.height}px` }}>
+              <Image
+                src={image.imageUrl || "/placeholder.svg"}
+                alt=""
+                width={image.width}
+                height={image.height}
+                className="object-cover"
+                priority={usedImageIndices.indexOf(displayedImages.indexOf(image)) < 9} // 最初の3枚は優先読み込み
+                loading="eager"
+                quality={75} // 画質を少し下げてパフォーマンス改善
+                sizes={`${image.width}px`}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
               {/* Status Bar */}
               <div className="absolute bottom-0 left-0 right-0 bg-green-950/90 px-2 py-1 text-[10px] text-green-400 font-mono border-t border-green-500">
                 <div className="flex justify-between items-center">
