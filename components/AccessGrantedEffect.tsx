@@ -171,6 +171,7 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
                   width: "100%",
                   height: "100%",
                 }}
+                unoptimized
               />
               {/* Status Bar */}
               <div className="absolute bottom-0 left-0 right-0 bg-green-950/90 px-2 py-1 text-[10px] text-green-400 font-mono border-t border-green-500">
