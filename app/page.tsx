@@ -22,10 +22,6 @@ const IMAGES = [
   "/img/BEYONDEX.png",
   "/img/BOMB.png",
   "/img/STEP 2.png",
-  // "/placeholder.svg?height=200&width=200&text=2",
-  // "/placeholder.svg?height=200&width=200&text=3",
-  // "/placeholder.svg?height=200&width=200&text=4",
-  // "/placeholder.svg?height=200&width=200&text=5",
 ]
 
 export default function UnlockPage() {
@@ -34,7 +30,7 @@ export default function UnlockPage() {
   const [isUnlocked, setIsUnlocked] = useState(false)
   const {isLocked, incrementAttempt, resetAttempts, remainingAttempts} = useAccessAttempts(MAX_ATTEMPTS)
 
-  const correctCode = "unlock"
+  const correctCode = "トモツク"
 
   useEffect(() => {
     if (result) {
