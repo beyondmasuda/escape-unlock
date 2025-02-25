@@ -27,12 +27,12 @@ const generateRandomPosition = (
 ): PopupImage => {
   let x: number, y: number
   let attempts = 0
-  const minDistance = 20
+  const minDistance = 30
 
   const centerX = 50
   const centerY = 50
   const avoidWidth = 30
-  const avoidHeight = 25
+  const avoidHeight = 35
 
   do {
     x = Math.random() * 80
