@@ -13,15 +13,15 @@ const MAX_ATTEMPTS = 3
 
 // テスト用の画像配列（実際のプロジェクトでは適切な画像URLに置き換えてください）
 const IMAGES = [
-  "/img/2-A.png",
-  "/img/2-B.png",
-  "/img/2-C.png",
-  "/img/2-D.png",
-  "/img/2-E.png",
-  "/img/2-place.png",
-  "/img/BEYONDEX.png",
-  "/img/BOMB.png",
-  "/img/STEP 2.png",
+  "/escape-unlock/img/2-A.png",
+  "/escape-unlock/img/2-B.png",
+  "/escape-unlock/img/2-C.png",
+  "/escape-unlock/img/2-D.png",
+  "/escape-unlock/img/2-E.png",
+  "/escape-unlock/img/2-place.png",
+  "/escape-unlock/img/BEYONDEX.png",
+  "/escape-unlock/img/BOMB.png",
+  "/escape-unlock/img/STEP 2.png",
 ]
 
 export default function UnlockPage() {

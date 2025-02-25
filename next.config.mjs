@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  basePath: '/escape-unlock',
-  assetPrefix: '/escape-unlock',
-};
+const nextConfig = {};
 
 export default nextConfig;
