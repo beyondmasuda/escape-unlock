@@ -53,11 +53,6 @@ const IMAGES = [
     width: 1414,
     height: 2000,
   },
-  {
-    url: "/escape-unlock/img/STEP 2.png",
-    width: 1414,
-    height: 2000,
-  },
 ]
 
 export default function UnlockPage() {
