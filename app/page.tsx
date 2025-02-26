@@ -11,17 +11,53 @@ import AccessGrantedEffect from "@/components/AccessGrantedEffect"
 
 const MAX_ATTEMPTS = 3
 
-// テスト用の画像配列（実際のプロジェクトでは適切な画像URLに置き換えてください）
+// 画像データの型定義
 const IMAGES = [
-  "/escape-unlock/img/2-A.png",
-  "/escape-unlock/img/2-B.png",
-  "/escape-unlock/img/2-C.png",
-  "/escape-unlock/img/2-D.png",
-  "/escape-unlock/img/2-E.png",
-  "/escape-unlock/img/2-place.png",
-  "/escape-unlock/img/BEYONDEX.png",
-  "/escape-unlock/img/BOMB.png",
-  "/escape-unlock/img/STEP 2.png",
+  {
+    url: "/escape-unlock/img/2-A.png",
+    width: 2000,
+    height: 1414,
+  },
+  {
+    url: "/escape-unlock/img/2-B.png",
+    width: 2000,
+    height: 1414,
+  },
+  {
+    url: "/escape-unlock/img/2-C.png",
+    width: 2000,
+    height: 1414,
+  },
+  {
+    url: "/escape-unlock/img/2-D.png",
+    width: 2000,
+    height: 1414,
+  },
+  {
+    url: "/escape-unlock/img/2-E.png",
+    width: 2000,
+    height: 1414,
+  },
+  {
+    url: "/escape-unlock/img/2-place.png",
+    width: 2000,
+    height: 1414,
+  },
+  {
+    url: "/escape-unlock/img/BEYONDEX.png",
+    width: 1414,
+    height: 2000,
+  },
+  {
+    url: "/escape-unlock/img/BOMB.png",
+    width: 1414,
+    height: 2000,
+  },
+  {
+    url: "/escape-unlock/img/STEP 2.png",
+    width: 1414,
+    height: 2000,
+  },
 ]
 
 export default function UnlockPage() {
@@ -49,10 +85,11 @@ export default function UnlockPage() {
       setResult("ACCESS GRANTED")
       setIsUnlocked(true)
       resetAttempts()
+      // コードの入力値を維持
     } else {
       setResult("ACCESS DENIED")
       incrementAttempt()
-      setCode("")
+      setCode("") // エラー時のみ入力をクリア
     }
   }
 

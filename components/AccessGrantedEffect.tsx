@@ -14,25 +14,30 @@ interface PopupImage {
   delay: number
   imageUrl: string
   title: string
+  aspectRatio: number
 }
 
 interface AccessGrantedEffectProps {
-  images: string[]
+  images: Array<{
+    url: string
+    width: number
+    height: number
+  }>
 }
 
 const generateRandomPosition = (
   usedPositions: { x: number; y: number }[],
-  imageUrl: string,
+  imageData: { url: string; width: number; height: number },
   index: number,
 ): PopupImage => {
   let x: number, y: number
   let attempts = 0
-  const minDistance = 30
+  const minDistance = 20
 
   const centerX = 50
   const centerY = 50
   const avoidWidth = 30
-  const avoidHeight = 35
+  const avoidHeight = 25
 
   do {
     x = Math.random() * 80
@@ -57,11 +62,11 @@ const generateRandomPosition = (
   } while (attempts < 100)
 
   const distanceFromCenter = Math.sqrt(Math.pow(x - 50, 2) + Math.pow(y - 50, 2))
-  const sizeMultiplier = 1 + distanceFromCenter / 100
-
-  const baseSize = 150
-  const width = baseSize + Math.random() * 50 * sizeMultiplier
-  const height = baseSize + Math.random() * 50 * sizeMultiplier
+  // 中央からの距離に応じて基準幅を調整 (200px ~ 300px)
+  const baseWidth = 250 - Math.min(50, distanceFromCenter)
+  const aspectRatio = imageData.width / imageData.height
+  const width = baseWidth
+  const height = baseWidth / aspectRatio
 
   return {
     id: Math.random(),
@@ -70,8 +75,9 @@ const generateRandomPosition = (
     width,
     height,
     delay: Math.random() * 0.5,
-    imageUrl,
+    imageUrl: imageData.url,
     title: `ENCRYPTED_DATA_${(index + 1).toString().padStart(3, "0")}.dat`,
+    aspectRatio,
   }
 }
 
@@ -92,7 +98,7 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
 
       const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)]
       setUsedImageIndices((prev) => [...prev, randomIndex])
-      return { url: images[randomIndex], index: randomIndex }
+      return { data: images[randomIndex], index: randomIndex }
     }
 
     const interval = 200
@@ -106,7 +112,7 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
       }
 
       setDisplayedImages((prev) => {
-        const newImage = generateRandomPosition(prev, nextImage.url, nextImage.index)
+        const newImage = generateRandomPosition(prev, nextImage.data, nextImage.index)
         return [...prev, newImage]
       })
     }, interval)
@@ -156,22 +162,27 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
             </div>
 
             {/* Window Content */}
-            <div className="relative" style={{ height: `${image.height}px` }}>
+            <div
+              className="relative"
+              style={{
+                height: `${image.height}px`,
+                aspectRatio: image.aspectRatio,
+              }}
+            >
               <Image
                 src={image.imageUrl || "/placeholder.svg"}
                 alt=""
                 width={image.width}
                 height={image.height}
-                className="object-cover"
-                priority={usedImageIndices.indexOf(displayedImages.indexOf(image)) < 9} // 最初の3枚は優先読み込み
+                className="object-contain"
+                priority={usedImageIndices.indexOf(displayedImages.indexOf(image)) < 3}
                 loading="eager"
-                quality={75} // 画質を少し下げてパフォーマンス改善
+                quality={85}
                 sizes={`${image.width}px`}
                 style={{
                   width: "100%",
                   height: "100%",
                 }}
-                unoptimized
               />
               {/* Status Bar */}
               <div className="absolute bottom-0 left-0 right-0 bg-green-950/90 px-2 py-1 text-[10px] text-green-400 font-mono border-t border-green-500">
