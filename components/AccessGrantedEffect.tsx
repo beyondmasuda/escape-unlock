@@ -29,6 +29,7 @@ const generateRandomPosition = (
   usedPositions: { x: number; y: number }[],
   imageData: { url: string; width: number; height: number },
   index: number,
+  windowWidth: number,
 ): PopupImage => {
   let x: number, y: number
   let attempts = 0
@@ -62,8 +63,16 @@ const generateRandomPosition = (
   } while (attempts < 100)
 
   const distanceFromCenter = Math.sqrt(Math.pow(x - 50, 2) + Math.pow(y - 50, 2))
-  // 中央からの距離に応じて基準幅を調整 (200px ~ 300px)
-  const baseWidth = 250 - Math.min(50, distanceFromCenter)
+
+  // 画面サイズに応じて基準幅を調整
+  let baseWidth = Math.min(windowWidth * 0.4, 600) // 最大幅を600pxに制限
+  if (windowWidth < 768) {
+    baseWidth = Math.min(windowWidth * 0.8, 400) // モバイルでは画面の80%まで
+  }
+
+  // 中央からの距離に応じて基準幅を調整
+  baseWidth = baseWidth - distanceFromCenter * 2
+
   const aspectRatio = imageData.width / imageData.height
   const width = baseWidth
   const height = baseWidth / aspectRatio
@@ -85,6 +94,16 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
   const [displayedImages, setDisplayedImages] = useState<PopupImage[]>([])
   const [isComplete, setIsComplete] = useState(false)
   const [usedImageIndices, setUsedImageIndices] = useState<number[]>([])
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1920)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   useEffect(() => {
     if (isComplete || images.length === 0) return
@@ -112,13 +131,13 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
       }
 
       setDisplayedImages((prev) => {
-        const newImage = generateRandomPosition(prev, nextImage.data, nextImage.index)
+        const newImage = generateRandomPosition(prev, nextImage.data, nextImage.index, windowWidth)
         return [...prev, newImage]
       })
     }, interval)
 
     return () => clearInterval(timer)
-  }, [isComplete, images, usedImageIndices])
+  }, [isComplete, images, usedImageIndices, windowWidth])
 
   return (
     <div className="fixed inset-0 z-[55] pointer-events-none">
@@ -146,7 +165,7 @@ export default function AccessGrantedEffect({ images }: AccessGrantedEffectProps
             <div className="bg-green-950 px-3 py-2 flex items-center justify-between border-b border-green-500">
               <div className="flex items-center space-x-2">
                 <Binary className="w-4 h-4 text-green-400" />
-                <span className="text-xs text-green-400 font-mono">{image.title}</span>
+                <span className="text-xs text-green-400 font-mono truncate">{image.title}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <button className="text-green-400 hover:text-green-300">
