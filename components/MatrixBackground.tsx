@@ -14,7 +14,8 @@ const MatrixBackground: React.FC = () => {
     ctx.font = "15px monospace"
 
     for (let i = 0; i < drops.length; i++) {
-      const text = String.fromCharCode(Math.random() * 128)
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789ビヨンド\/\\.,]:;[@^-!?><_}*+{`~=)('&%$#\"";
+      const text = characters.charAt(Math.floor(Math.random() * characters.length));
       ctx.fillText(text, i * 20, drops[i] * 20)
 
       if (drops[i] * 20 > ctx.canvas.height && Math.random() > 0.975) {
