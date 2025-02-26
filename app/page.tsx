@@ -158,7 +158,7 @@ export default function UnlockPage() {
             )}
           </AnimatePresence>
           {!isLocked && remainingAttempts > 0 && !isUnlocked && (
-            <p className="mt-4 sm:mt-6 text-sm sm:text-base text-center text-green-300">
+            <p className="mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base lg:text-lg xl:text-xl text-center text-green-300">
               Attempts remaining: {remainingAttempts}
             </p>
           )}
