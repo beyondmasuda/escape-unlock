@@ -9,7 +9,7 @@ import MatrixBackground from "../components/MatrixBackground"
 import { useAccessAttempts } from "@/hooks/useAccessAttempts"
 import AccessGrantedEffect from "@/components/AccessGrantedEffect"
 
-const MAX_ATTEMPTS = 3
+const MAX_ATTEMPTS = 1
 
 // 画像データの型定義
 const IMAGES = [
